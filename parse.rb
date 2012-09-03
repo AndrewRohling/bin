@@ -1,12 +1,21 @@
-# Example 2 - Pass file to block
-File.open("colors.txt", "r") do |infile|
+#!/usr/bin/env ruby
+
+colors = []
+
+File.open(ARGV[0], "r") do |infile|
   while (line = infile.gets)
-    if line.length == 8
-      puts line.downcase
-    elsif line.length == 5
-      puts "#{line[0]}#{line[1]}#{line[1]}#{line[2]}#{line[2]}#{line[3]}#{line[3]}".downcase
-    else
-      puts "*** error #{line} ***"
+    /#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})/.match(line) do |m|
+        m = "#{m}".downcase
+
+        if m.length == 4
+          m = "#{m[0]}#{m[1]}#{m[1]}#{m[2]}#{m[2]}#{m[3]}#{m[3]}"
+        end
+
+        if colors.index( m ).nil?
+            colors << m
+        end
     end
   end
 end
+
+puts colors
